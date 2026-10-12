@@ -112,6 +112,34 @@
   .photo-caption{font:italic 12px Georgia,serif;color:#6f5e66}
   .photo-caption small{display:block;margin-top:4px;font:10px "Trebuchet MS",Arial,sans-serif;color:#a39797}
   .footer{text-align:center;margin:17px 0 0;color:#9a8c8e;font:italic 11px Georgia,serif}
+
+  /* Toast notification */
+  .toast{
+    position:fixed;
+    z-index:20;
+    left:50%;
+    bottom:22px;
+    max-width:calc(100% - 32px);
+    padding:11px 16px;
+    border:1px solid #e2a35c;
+    border-radius:999px;
+    background:#302a35;
+    color:#fff5e8;
+    font-size:12px;
+    text-align:center;
+    box-shadow:0 6px 20px #09081055;
+    opacity:0;
+    visibility:hidden;
+    transform:translate(-50%,12px);
+    transition:opacity .2s ease, transform .2s ease, visibility .2s;
+    pointer-events:none;
+  }
+  .toast.show{
+    opacity:1;
+    visibility:visible;
+    transform:translate(-50%,0);
+  }
+
   @media(max-width:900px){.content{grid-template-columns:1fr}.aside{grid-template-columns:repeat(2,minmax(0,1fr))}.photo-card{grid-column:1/-1}}
   @media(max-width:600px){
     .page{padding:10px}.desk{padding:10px}.topline{font-size:9px}.top-symbols{font-size:14px}
