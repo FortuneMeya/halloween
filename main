@@ -1,0 +1,302 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Jaz &amp; Fortune’s Haunted October</title>
+<style>
+  :root{--ink:#272438;--muted:#898398;--orange:#f39a4a;--purple:#7160a0;--paper:#fffdf9;--line:#eee8e2}
+  *{box-sizing:border-box}
+  body{margin:0;background:#f6f3f7;color:var(--ink);font:14px/1.5 "Trebuchet MS",Arial,sans-serif}
+  button,input{font:inherit}button{cursor:pointer}
+
+  /* Password entrance */
+  .gate{position:fixed;inset:0;z-index:10;display:grid;place-items:center;overflow:hidden;background:radial-gradient(ellipse at 18% 20%,#50345e 0,transparent 38%),radial-gradient(ellipse at 83% 82%,#713a32 0,transparent 35%),linear-gradient(145deg,#171527,#27203a 53%,#171523)}
+  .gate:before{content:"";position:absolute;inset:0;background-image:radial-gradient(#fff7 1px,transparent 1px);background-size:37px 37px;opacity:.34;pointer-events:none}
+  .gate-moon{position:absolute;top:8%;right:13%;width:90px;height:90px;border-radius:50%;background:radial-gradient(circle at 35% 35%,#ffe7b8,#e7a353 65%,#a7633d);box-shadow:0 0 55px #f1a65455}
+  .gate-bat{position:absolute;font-size:27px;color:#e2a65f;opacity:.65}
+  .gate-bat.b1{left:14%;top:22%;transform:rotate(-15deg)}.gate-bat.b2{right:16%;bottom:19%;font-size:20px;transform:rotate(12deg)}
+  .gate-card{position:relative;width:min(440px,calc(100% - 32px));padding:40px 38px 34px;text-align:center;background:linear-gradient(155deg,#29253cF5,#201e30F5);border:1px solid #d5a05b55;border-radius:24px;box-shadow:0 26px 90px #09081099,0 0 40px #ed8e3f14}
+  .gate-icon{font-size:36px;filter:drop-shadow(0 0 12px #f3984b77)}
+  .gate-kicker{color:#e2a65f;font-size:10px;letter-spacing:.22em;text-transform:uppercase;font-weight:bold}
+  .gate h1{font:600 clamp(32px,9vw,43px)/1.08 Georgia,serif;letter-spacing:-.03em;margin:9px 0;color:#fff5e8}
+  .gate-copy{color:#c4bbce;margin:0 auto 22px;max-width:310px;font-size:13px}
+  .secret-input{width:100%;height:51px;padding:0 18px;border:1px solid #665474;border-radius:12px;background:#171625;color:#fff6e9;letter-spacing:.22em;text-align:center;outline:0}
+  .secret-input:focus{border-color:#efa14f;box-shadow:0 0 0 4px #efa14f22}
+  .secret-input::placeholder{letter-spacing:.08em;color:#93889e}
+  .unlock{width:100%;margin-top:11px;padding:14px 18px;border:0;border-radius:12px;background:linear-gradient(100deg,#e78338,#f4b75f);color:#271e2e;font-weight:bold;box-shadow:0 8px 20px #d7813940}
+  .unlock:hover{filter:brightness(1.08);transform:translateY(-1px)}
+  .feedback{min-height:22px;margin:10px 0 0;color:#ffbb72;font-size:12px}
+  .gate-foot{margin-top:12px;color:#a79aae;font:italic 12px Georgia,serif}
+  .shake{animation:shake .35s}@keyframes shake{25%{transform:translateX(-6px)}50%{transform:translateX(6px)}75%{transform:translateX(-3px)}}
+
+  /* Haunted movie calendar */
+  .app{display:none;opacity:0;transition:opacity .55s ease}
+  .shell{width:min(1320px,calc(100% - 40px));margin:auto;padding:25px 0 42px}
+  .topline{display:flex;align-items:center;justify-content:space-between;padding:0 3px 14px;color:#81798c;font-size:10px;letter-spacing:.13em;text-transform:uppercase;font-weight:bold}
+  .brand{display:flex;align-items:center;gap:9px}.brand-mark{color:#e18540;font-size:18px}
+  .season-tag{padding:5px 9px;border:1px solid #e7ddd1;border-radius:99px;background:#fffdf9;color:#776c81;font-size:9px;letter-spacing:.06em;text-transform:none}
+  .hero{position:relative;isolation:isolate;overflow:hidden;min-height:285px;padding:36px 42px;display:flex;align-items:center;justify-content:space-between;gap:25px;border-radius:24px;color:#fff9ee;background:linear-gradient(108deg,#211e32,#373149 57%,#473951);box-shadow:0 22px 55px #29213722}
+  .hero:before{content:"";position:absolute;inset:0;z-index:-1;background:radial-gradient(ellipse at 72% 110%,#f08b3d44,transparent 42%),radial-gradient(ellipse at 95% 5%,#8372ac55,transparent 36%)}
+  .hero:after{content:"";position:absolute;z-index:-1;inset:0;background:linear-gradient(0deg,#171624bb,transparent 58%);opacity:.65}
+  .hero-photo{position:absolute;inset:0;z-index:-2;width:100%;height:100%;object-fit:cover;opacity:.36;display:none}.hero.has-photo .hero-photo{display:block}
+  .hero-copy{max-width:650px;position:relative}
+  .hero-kicker{display:flex;align-items:center;gap:10px;color:#f3b365;font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:bold}
+  .hero-kicker:before{content:"";width:24px;height:1px;background:#f3a14e}
+  .hero h2{font:500 clamp(38px,5.7vw,68px)/.98 Georgia,serif;letter-spacing:-.045em;margin:13px 0;color:#fff7ea}
+  .hero h2 em{font-style:normal;color:#f5ad61}
+  .hero-sub{max-width:490px;color:#d8d0df;margin:0;font-size:13px;line-height:1.7}
+  .hero-side{display:flex;flex-direction:column;align-items:center;gap:12px;min-width:150px;position:relative}
+  .pumpkin{font-size:81px;line-height:1;filter:drop-shadow(0 0 20px #f59a3e55);animation:flicker 4s infinite}
+  @keyframes flicker{0%,100%{filter:drop-shadow(0 0 16px #f59a3e44)}50%{filter:drop-shadow(0 0 30px #ffab4e99)}}
+  .hero-caption{font:italic 13px Georgia,serif;color:#e8bd8b}
+  .photo-button{border:1px solid #fff4;color:#fff8ed;background:#ffffff12;border-radius:99px;padding:9px 13px;font-size:10px;font-weight:bold;cursor:pointer}
+  .photo-button:hover{background:#ffffff26}#photoInput{display:none}
+  .banner{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:16px 2px 22px;padding:11px 16px;border-radius:13px;background:#fffdf9;border:1px solid #eee6dc;color:#776d83}
+  .banner strong{font-size:9px;letter-spacing:.11em;text-transform:uppercase;color:#b96d37}
+  .layout{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:20px;align-items:start}
+  .panel{background:#fffdfb;border:1px solid #eee8e2;border-radius:20px;box-shadow:0 12px 35px #3931480a}
+  .calendar-panel{padding:22px}
+  .calendar-head{display:flex;align-items:center;justify-content:space-between;gap:14px;margin-bottom:20px}
+  .cal-title{display:flex;align-items:baseline;gap:10px}.cal-title h3{font:500 29px Georgia,serif;letter-spacing:-.03em;margin:0;color:#373047}.cal-title span{font-size:11px;color:#9890a2;letter-spacing:.08em}
+  .cal-actions{display:flex;align-items:center;gap:7px}.cal-actions button{height:34px;min-width:34px;border:1px solid #eee7ef;border-radius:10px;background:#fff;color:#655b71}
+  .cal-actions button:hover{background:#fff4e9;border-color:#efd1b1}.cal-actions .today-btn{padding:0 12px;font-size:10px;font-weight:bold}
+  .weekdays,.grid{display:grid;grid-template-columns:repeat(7,minmax(0,1fr))}
+  .weekdays{margin-bottom:7px;text-align:center;color:#a09aaa;font-size:9px;letter-spacing:.13em;text-transform:uppercase;font-weight:bold}
+  .day{position:relative;min-height:106px;margin:3px;padding:8px;border:1px solid #f0edf1;border-radius:12px;background:#fff;transition:.16s;cursor:pointer}
+  .day:hover{border-color:#eac092;box-shadow:0 4px 14px #c481a01b}.day.other{background:#fcfafc;color:#c1bdc6}
+  .day.today{border-color:#e9a052;background:linear-gradient(145deg,#fffaf1,#fff)}
+  .day.selected{box-shadow:inset 0 0 0 1px #e1a05c}.day.drop-target{background:#fff4e8;border:1px dashed #d58b4d;transform:scale(1.015)}
+  .date-row{display:flex;align-items:center;gap:5px}.day-number{font-size:11px;font-weight:bold}.tonight{color:#c27539;font-size:8px;font-weight:bold;letter-spacing:.06em;text-transform:uppercase}
+  .events{display:grid;gap:5px;margin-top:8px}
+  .event{width:100%;text-align:left;border:0;border-radius:8px;padding:5px 6px;background:#eee9f7;color:#50456d;font-size:9px;line-height:1.25;overflow-wrap:anywhere}
+  .event:nth-child(even){background:#fff0df;color:#87582f}.event:hover{filter:saturate(1.15);transform:translateY(-1px)}
+  .event strong{display:block;font-size:9px}.event small{opacity:.75;font-size:8px}.event.watched{text-decoration:line-through;opacity:.58}
+  .calendar-foot{display:flex;align-items:center;justify-content:space-between;gap:12px;margin:13px 3px 0;color:#92899b;font-size:10px}
+  .drop-hint{display:flex;align-items:center;gap:7px}.drop-hint b{color:#ca7c3b;font-size:14px}
+  .side{display:grid;gap:14px}.side-panel{padding:18px}
+  .side-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}.side-head h3{margin:0;font:500 21px Georgia,serif;color:#453b50}
+  .badge{padding:4px 8px;border-radius:99px;background:#fff0df;color:#a6602f;font-size:9px;font-weight:bold}
+  .subtle{margin:0 0 13px;color:#9991a1;font-size:10px}.movie-list{display:grid;gap:8px}
+  .movie{display:flex;align-items:center;gap:10px;padding:9px;border:1px solid #f0eae3;border-radius:12px;background:linear-gradient(110deg,#fff,#fffcf7);cursor:grab;transition:.15s;user-select:none}
+  .movie:hover{transform:translateY(-2px);border-color:#e5c4a2;box-shadow:0 5px 15px #9f663014}.movie:active{cursor:grabbing}
+  .movie-art{display:grid;place-items:center;width:39px;height:42px;flex:none;border-radius:9px;background:linear-gradient(145deg,#eee7f5,#ffead8);font-size:18px}
+  .movie-info{flex:1;min-width:0}.movie-info strong{display:block;color:#4b4056;font-size:11px}.movie-info small{display:block;color:#aaa0b0;font-size:9px}.grip{color:#c0b6c4;font-size:16px}
+  .add-row{display:flex;gap:7px;margin-top:11px}.add-row input{min-width:0;flex:1;height:36px;padding:0 10px;border:1px solid #eee7ef;border-radius:10px;outline:0;font-size:10px}
+  .add-row input:focus{border-color:#dfa667;box-shadow:0 0 0 3px #f6d9b633}.add-row button{padding:0 12px;border:0;border-radius:10px;background:#f4e9fc;color:#594b76;font-size:10px;font-weight:bold}
+  .history-list{display:grid;gap:7px;margin-top:12px}.history-item{display:flex;align-items:center;gap:9px;padding:9px 10px;border-radius:11px;background:#faf7f4}
+  .history-check{display:grid;place-items:center;flex:none;width:23px;height:23px;border-radius:50%;background:#e8f0e6;color:#64864f;font-size:11px}
+  .history-item strong{display:block;font-size:10px;color:#5f5669}.history-item small{display:block;color:#a49ba9;font-size:9px}
+  .spooky-note{position:relative;overflow:hidden;background:linear-gradient(135deg,#f2edf8,#fff1e2)}.spooky-note:after{content:"☾";position:absolute;right:8px;bottom:-30px;color:#fff9;font:100px Georgia,serif;pointer-events:none}
+  .spooky-note p{position:relative;z-index:1;margin:9px 0 0;color:#70687c;font:italic 13px/1.65 Georgia,serif}
+  .toast{position:fixed;z-index:30;bottom:22px;left:50%;transform:translate(-50%,20px);opacity:0;pointer-events:none;padding:10px 16px;border-radius:99px;background:#302a40;color:white;font-size:11px;box-shadow:0 9px 25px #28213935;transition:.2s}
+  .toast.show{opacity:1;transform:translate(-50%,0)}.footer{text-align:center;margin:20px 0 0;color:#a9a1ae;font:italic 11px Georgia,serif}
+  @media(max-width:920px){.layout{grid-template-columns:1fr}.side{grid-template-columns:repeat(2,minmax(0,1fr))}.side-panel:last-child{grid-column:1/-1}}
+  @media(max-width:620px){
+    .shell{width:calc(100% - 20px);padding-top:13px}.topline{font-size:9px}.hero{min-height:290px;padding:28px 22px;align-items:flex-start}
+    .hero h2{font-size:41px}.hero-side{min-width:85px}.pumpkin{font-size:57px}.hero-caption{font-size:10px;text-align:center}
+    .photo-button{font-size:9px;padding:8px}.hero-sub{font-size:12px}
+    .banner{font-size:11px;padding:10px 12px}.calendar-panel{padding:16px 9px}.cal-title h3{font-size:24px}.cal-title span{font-size:9px}
+    .day{min-height:78px;margin:2px;padding:5px;border-radius:9px}.weekdays{font-size:8px}.event{padding:4px;font-size:8px}.event strong{font-size:8px}.event small{font-size:7px}
+    .tonight{display:block;font-size:7px}.calendar-foot{font-size:9px}.side{grid-template-columns:1fr}.side-panel:last-child{grid-column:auto}
+  }
+  @media(max-width:400px){.hero{padding:22px 16px}.hero h2{font-size:35px}.hero-side{min-width:69px}.pumpkin{font-size:48px}.date-row{display:block}.tonight{margin-top:1px}.day{min-height:72px}}
+</style>
+</head>
+<body>
+<section class="gate" id="gate">
+  <div class="gate-moon"></div><div class="gate-bat b1">🦇</div><div class="gate-bat b2">🦇</div>
+  <div class="gate-card" id="gateCard">
+    <div class="gate-icon">🎃</div>
+    <div class="gate-kicker">A private little haunt</div>
+    <h1>Jaz &amp; Fortune</h1>
+    <p class="gate-copy">Enter the secret password to unlock your October horror calendar.</p>
+    <input class="secret-input" id="password" type="password" inputmode="numeric" autocomplete="off" placeholder="Secret password" aria-label="Secret password">
+    <button class="unlock" id="unlockButton" type="button">Unlock the calendar　✦</button>
+    <p class="feedback" id="feedback" aria-live="polite"></p>
+    <div class="gate-foot">Beware: excellent movies lie ahead.</div>
+  </div>
+</section>
+
+<main class="app" id="app">
+  <div class="shell">
+    <div class="topline">
+      <div class="brand"><span class="brand-mark">☠</span> Jaz &amp; Fortune <span style="color:#b2a6b8">/</span> Fright Nights</div>
+      <div class="season-tag">🕯 October Horror Club</div>
+    </div>
+    <header class="hero" id="hero">
+      <img class="hero-photo" id="heroPhoto" alt="">
+      <div class="hero-copy">
+        <div class="hero-kicker">The nights are getting darker</div>
+        <h2>Welcome to<br><em>Fright Nights.</em></h2>
+        <p class="hero-sub">A month of haunted houses, questionable decisions, and one more movie before bed. Pick a film and claim a night.</p>
+      </div>
+      <div class="hero-side">
+        <div class="pumpkin">🎃</div>
+        <div class="hero-caption">Jaz &amp; Fortune’s horror log</div>
+        <label class="photo-button" for="photoInput">＋ Add a photo</label>
+        <input type="file" id="photoInput" accept="image/*">
+      </div>
+    </header>
+    <div class="banner"><span>🕸️ Your October watch schedule</span><strong>Spine-chillingly good plans ahead</strong></div>
+    <section class="layout">
+      <div class="panel calendar-panel">
+        <div class="calendar-head">
+          <div class="cal-title"><h3 id="monthName"></h3><span id="yearName"></span></div>
+          <div class="cal-actions"><button id="prevMonth" aria-label="Previous month">‹</button><button class="today-btn" id="goToday">Today</button><button id="nextMonth" aria-label="Next month">›</button></div>
+        </div>
+        <div class="weekdays"><span>Sun</span><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span></div>
+        <div class="grid" id="calendarGrid"></div>
+        <div class="calendar-foot"><span class="drop-hint"><b>✧</b> Drag a movie onto a date</span><span>Click a movie to mark watched</span></div>
+      </div>
+      <aside class="side">
+        <section class="panel side-panel">
+          <div class="side-head"><h3>Pick your next scare</h3><span class="badge" id="watchCount"></span></div>
+          <p class="subtle">Drag a title onto the calendar, or click a date first.</p>
+          <div class="movie-list" id="movieList"></div>
+          <form class="add-row" id="addForm"><input id="newMovie" placeholder="Add another horror movie…" aria-label="New movie title"><button type="submit">＋ Add</button></form>
+        </section>
+        <section class="panel side-panel">
+          <div class="side-head"><h3>Already survived</h3><span class="badge" id="watchedCount"></span></div>
+          <div class="history-list" id="historyList"></div>
+        </section>
+        <section class="panel side-panel spooky-note">
+          <div class="side-head"><h3>Haunted movie tip</h3><span>🕯️</span></div>
+          <p>Dim the lights, get the snacks ready, and keep one eye on the shadows. Happy haunting!</p>
+        </section>
+      </aside>
+    </section>
+    <div class="footer">Jaz &amp; Fortune’s October horror log · enter if you dare ☾</div>
+  </div>
+</main>
+<div class="toast" id="toast" aria-live="polite"></div>
+
+<script>
+(() => {
+  const SECRET="07202023", STORE="jaz-fortune-halloween-calendar";
+  const initial={
+    year:2026,month:9,selected:"2026-10-12",
+    movies:[
+      {id:"nun",title:"The Nun",watched:true},
+      {id:"shining",title:"The Shining",watched:true},
+      {id:"conjuring",title:"The Conjuring",watched:false}
+    ],
+    events:[
+      {id:"leprechaun",title:"Leprechaun 1",date:"2026-10-01",watched:true},
+      {id:"nun",title:"The Nun",date:null,watched:true,note:"Watched last week · date not pinned"},
+      {id:"shining",title:"The Shining",date:null,watched:true,note:"Watched last week · date not pinned"},
+      {id:"conjuring",title:"The Conjuring",date:"2026-10-12",watched:false}
+    ],photo:""
+  };
+  let state;
+  try{state=JSON.parse(localStorage.getItem(STORE))||JSON.parse(JSON.stringify(initial))}
+  catch{state=JSON.parse(JSON.stringify(initial))}
+  const $=id=>document.getElementById(id);
+  const months=["January","February","March","April","May","June","July","August","September","October","November","December"];
+  const pad=n=>String(n).padStart(2,"0");
+  const dateKey=(y,m,d)=>`${y}-${pad(m+1)}-${pad(d)}`;
+  function save(){try{localStorage.setItem(STORE,JSON.stringify(state))}catch{}}
+  function toast(text){const t=$("toast");t.textContent=text;t.classList.add("show");clearTimeout(toast.timer);toast.timer=setTimeout(()=>t.classList.remove("show"),1900)}
+
+  function unlock(){
+    if($("password").value.trim()===SECRET){
+      $("gate").style.display="none";
+      $("app").style.display="block";
+      requestAnimationFrame(()=>$("app").style.opacity="1");
+    }else{
+      $("feedback").textContent='Wrong password. Hint: “anniversary”';
+      $("password").value="";
+      $("gateCard").classList.remove("shake");
+      void $("gateCard").offsetWidth;
+      $("gateCard").classList.add("shake");
+      $("password").focus();
+    }
+  }
+  $("unlockButton").addEventListener("click",unlock);
+  $("password").addEventListener("keydown",e=>{if(e.key==="Enter"){e.preventDefault();unlock()}});
+
+  function renderMovies(){
+    const list=$("movieList");list.innerHTML="";
+    const unwatched=state.movies.filter(m=>!m.watched);
+    $("watchCount").textContent=`${unwatched.length} to watch`;
+    if(!unwatched.length)list.innerHTML='<p class="subtle">Your watchlist is clear. Add another horror movie!</p>';
+    unwatched.forEach(m=>{
+      const card=document.createElement("div");card.className="movie";card.draggable=true;
+      card.innerHTML='<div class="movie-art">🎞️</div><div class="movie-info"><strong></strong><small>Drag to choose a night</small></div><span class="grip">⠿</span>';
+      card.querySelector("strong").textContent=m.title;
+      card.addEventListener("dragstart",e=>{e.dataTransfer.setData("text/plain",m.id);e.dataTransfer.effectAllowed="move"});
+      card.addEventListener("click",()=>schedule(m.id,state.selected||"2026-10-12"));
+      list.appendChild(card);
+    });
+  }
+  function renderHistory(){
+    const list=$("historyList");list.innerHTML="";
+    const history=state.events.filter(e=>e.watched);
+    $("watchedCount").textContent=`${history.length} watched`;
+    history.forEach(ev=>{
+      const row=document.createElement("div");row.className="history-item";
+      const when=ev.date?new Date(ev.date+"T12:00:00").toLocaleDateString(undefined,{month:"short",day:"numeric"}):(ev.note||"Watched last week");
+      row.innerHTML='<span class="history-check">✓</span><div><strong></strong><small></small></div>';
+      row.querySelector("strong").textContent=ev.title;row.querySelector("small").textContent=when;list.appendChild(row);
+    });
+  }
+  function renderCalendar(){
+    $("monthName").textContent=months[state.month];$("yearName").textContent=state.year;
+    const grid=$("calendarGrid");grid.innerHTML="";
+    const offset=new Date(state.year,state.month,1).getDay(),days=new Date(state.year,state.month+1,0).getDate(),prevDays=new Date(state.year,state.month,0).getDate();
+    const total=Math.ceil((offset+days)/7)*7;
+    for(let i=0;i<total;i++){
+      let y=state.year,m=state.month,d,other=false;
+      if(i<offset){d=prevDays-offset+i+1;m--;other=true;if(m<0){m=11;y--}}
+      else if(i>=offset+days){d=i-offset-days+1;m++;other=true;if(m>11){m=0;y++}}
+      else d=i-offset+1;
+      const date=dateKey(y,m,d),cell=document.createElement("div");cell.className="day";
+      if(other)cell.classList.add("other");if(date==="2026-10-12")cell.classList.add("today");if(date===state.selected)cell.classList.add("selected");
+      const row=document.createElement("div");row.className="date-row";
+      const num=document.createElement("span");num.className="day-number";num.textContent=d;row.appendChild(num);
+      if(date==="2026-10-12"){const label=document.createElement("span");label.className="tonight";label.textContent="Tonight";row.appendChild(label)}
+      cell.appendChild(row);
+      const events=document.createElement("div");events.className="events";
+      state.events.filter(ev=>ev.date===date).forEach(ev=>{
+        const btn=document.createElement("button");btn.type="button";btn.className="event"+(ev.watched?" watched":"");
+        btn.innerHTML="<strong></strong><small></small>";btn.querySelector("strong").textContent=ev.title;
+        btn.querySelector("small").textContent=ev.watched?"Watched ✓":"Movie night · click when done";
+        btn.addEventListener("click",e=>{
+          e.stopPropagation();ev.watched=!ev.watched;
+          const movie=state.movies.find(x=>x.id===ev.id);if(movie)movie.watched=ev.watched;
+          save();render();
+        });
+        events.appendChild(btn);
+      });
+      cell.appendChild(events);
+      cell.addEventListener("click",()=>{state.selected=date;save();document.querySelectorAll(".day.selected").forEach(x=>x.classList.remove("selected"));cell.classList.add("selected")});
+      cell.addEventListener("dragover",e=>{e.preventDefault();cell.classList.add("drop-target")});
+      cell.addEventListener("dragleave",()=>cell.classList.remove("drop-target"));
+      cell.addEventListener("drop",e=>{e.preventDefault();cell.classList.remove("drop-target");const id=e.dataTransfer.getData("text/plain");if(id)schedule(id,date)});
+      grid.appendChild(cell);
+    }
+  }
+  function render(){renderMovies();renderHistory();renderCalendar()}
+  function schedule(id,date){
+    const movie=state.movies.find(m=>m.id===id);if(!movie)return;
+    let ev=state.events.find(x=>x.id===id);
+    if(!ev){ev={id,title:movie.title,date,watched:false};state.events.push(ev)}
+    ev.title=movie.title;ev.date=date;ev.watched=false;delete ev.note;movie.watched=false;state.selected=date;save();render();toast(`${movie.title} night planned 🎃`);
+  }
+  $("addForm").addEventListener("submit",e=>{
+    e.preventDefault();const input=$("newMovie"),title=input.value.trim();if(!title)return;
+    state.movies.push({id:"movie-"+Date.now(),title,watched:false});input.value="";save();renderMovies();toast("Added to the watchlist 🕸️");
+  });
+  $("prevMonth").onclick=()=>{state.month--;if(state.month<0){state.month=11;state.year--}save();renderCalendar()};
+  $("nextMonth").onclick=()=>{state.month++;if(state.month>11){state.month=0;state.year++}save();renderCalendar()};
+  $("goToday").onclick=()=>{state.year=2026;state.month=9;state.selected="2026-10-12";save();renderCalendar()};
+  $("photoInput").addEventListener("change",e=>{
+    const file=e.target.files&&e.target.files[0];if(!file)return;
+    const reader=new FileReader();reader.onload=()=>{state.photo=reader.result;$("heroPhoto").src=state.photo;$("hero").classList.add("has-photo");save()};reader.readAsDataURL(file);
+  });
+  if(state.photo){$("heroPhoto").src=state.photo;$("hero").classList.add("has-photo")}
+  render();
+})();
+</script>
+</body>
+</html>
